@@ -1,0 +1,28 @@
+--cpu=Cortex-M4.fp
+"ms5837-30ba_test\startup_stm32f401xe.o"
+"ms5837-30ba_test\ms5837-30ba_driver.o"
+"ms5837-30ba_test\main.o"
+"ms5837-30ba_test\stm32f4xx_it.o"
+"ms5837-30ba_test\stm32f4xx_hal_msp.o"
+"ms5837-30ba_test\stm32f4xx_hal_i2c.o"
+"ms5837-30ba_test\stm32f4xx_hal_i2c_ex.o"
+"ms5837-30ba_test\stm32f4xx_hal_tim.o"
+"ms5837-30ba_test\stm32f4xx_hal_tim_ex.o"
+"ms5837-30ba_test\stm32f4xx_hal_uart.o"
+"ms5837-30ba_test\stm32f4xx_hal_rcc.o"
+"ms5837-30ba_test\stm32f4xx_hal_rcc_ex.o"
+"ms5837-30ba_test\stm32f4xx_hal_flash.o"
+"ms5837-30ba_test\stm32f4xx_hal_flash_ex.o"
+"ms5837-30ba_test\stm32f4xx_hal_flash_ramfunc.o"
+"ms5837-30ba_test\stm32f4xx_hal_gpio.o"
+"ms5837-30ba_test\stm32f4xx_hal_dma_ex.o"
+"ms5837-30ba_test\stm32f4xx_hal_dma.o"
+"ms5837-30ba_test\stm32f4xx_hal_pwr.o"
+"ms5837-30ba_test\stm32f4xx_hal_pwr_ex.o"
+"ms5837-30ba_test\stm32f4xx_hal_cortex.o"
+"ms5837-30ba_test\stm32f4xx_hal.o"
+"ms5837-30ba_test\system_stm32f4xx.o"
+--library_type=microlib --strict --scatter "MS5837-30BA_test\MS5837-30BA_test.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "MS5837-30BA_test.map" -o MS5837-30BA_test\MS5837-30BA_test.axf

@@ -1,0 +1,89 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.26.2.0
+Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Jean GremSnoort, ..., LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.26.2.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.26.2.0
+Dialog DLL:      DCM.DLL V1.17.2.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.5.0
+Dialog DLL:      TCM.DLL V1.36.1.0
+ 
+<h2>Project:</h2>
+C:\Users\Eva\Desktop\RoboSUB\CubePr\PressureTest\MS5837-30BA_test\MDK-ARM\MS5837-30BA_test.uvprojx
+Project File Date:  12/08/2018
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Rebuild target 'MS5837-30BA_test'
+assembling startup_stm32f401xe.s...
+compiling stm32f4xx_it.c...
+compiling main.c...
+compiling MS5837-30BA_driver.c...
+..\Src\sensors\MS5837-30BA\MS5837-30BA_driver.c(84): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	return (MS5837Pressure( dev, Pa ) - .101300) / (dev->fluidDensity * 9.80665);
+..\Src\sensors\MS5837-30BA\MS5837-30BA_driver.c(84): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	return (MS5837Pressure( dev, Pa ) - .101300) / (dev->fluidDensity * 9.80665);
+..\Src\sensors\MS5837-30BA\MS5837-30BA_driver.c(89): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  	return (1 - pow((MS5837Pressure(dev, mbar) / 1013.25), .190284)) * 145366.45 * .3048;
+..\Src\sensors\MS5837-30BA\MS5837-30BA_driver.c: 3 warnings, 0 errors
+compiling stm32f4xx_hal_msp.c...
+compiling stm32f4xx_hal_i2c_ex.c...
+compiling stm32f4xx_hal_i2c.c...
+compiling stm32f4xx_hal_tim_ex.c...
+compiling stm32f4xx_hal_tim.c...
+compiling stm32f4xx_hal_rcc_ex.c...
+compiling stm32f4xx_hal_rcc.c...
+compiling stm32f4xx_hal_uart.c...
+compiling stm32f4xx_hal_flash_ramfunc.c...
+compiling stm32f4xx_hal_flash.c...
+compiling stm32f4xx_hal_flash_ex.c...
+compiling stm32f4xx_hal_gpio.c...
+compiling stm32f4xx_hal_dma.c...
+compiling stm32f4xx_hal_dma_ex.c...
+compiling stm32f4xx_hal_pwr.c...
+compiling stm32f4xx_hal_pwr_ex.c...
+compiling stm32f4xx_hal_cortex.c...
+compiling stm32f4xx_hal.c...
+compiling system_stm32f4xx.c...
+linking...
+Program Size: Code=15494 RO-data=678 RW-data=24 ZI-data=1472  
+FromELF: creating hex file...
+"MS5837-30BA_test\MS5837-30BA_test.axf" - 0 Error(s), 3 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.4.0.pack
+                ARM.CMSIS.5.4.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.1.2
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.13.0.pack
+                Keil.STM32F4xx_DFP.2.13.0
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_MS5837-30BA_test
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include
+  C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.1.2
+Build Time Elapsed:  00:00:26
+</pre>
+</body>
+</html>
