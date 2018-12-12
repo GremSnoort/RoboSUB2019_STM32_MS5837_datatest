@@ -44,7 +44,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "sensors/MS5837-30BA/MS5837_drv.h"
+#include "sensors/MS5837/MS5837_drv.h"
 
 /* USER CODE END Includes */
 
@@ -74,8 +74,6 @@ uint16_t size;
 uint8_t Data[256];
 
 MS5837Device ms583730ba_sensor;
-
-//MS5837_Handle ms583730ba_sensor;
 
 /* USER CODE END PV */
 

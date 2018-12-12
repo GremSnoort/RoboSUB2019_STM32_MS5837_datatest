@@ -1,5 +1,5 @@
-ms5837-30ba_test\ms5837_drv.o: ..\Src\sensors\MS5837-30BA\MS5837_drv.c
-ms5837-30ba_test\ms5837_drv.o: ../Inc/sensors/MS5837-30BA/MS5837_drv.h
+ms5837-30ba_test\ms5837_drv.o: ..\Src\sensors\MS5837\MS5837_drv.c
+ms5837-30ba_test\ms5837_drv.o: ../Inc/sensors/MS5837/MS5837_drv.h
 ms5837-30ba_test\ms5837_drv.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 ms5837-30ba_test\ms5837_drv.o: ../Inc/stm32f4xx_hal_conf.h
 ms5837-30ba_test\ms5837_drv.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h

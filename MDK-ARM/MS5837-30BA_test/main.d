@@ -30,5 +30,5 @@ ms5837-30ba_test\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_e
 ms5837-30ba_test\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 ms5837-30ba_test\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 ms5837-30ba_test\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-ms5837-30ba_test\main.o: ../Inc/sensors/MS5837-30BA/MS5837_drv.h
+ms5837-30ba_test\main.o: ../Inc/sensors/MS5837/MS5837_drv.h
 ms5837-30ba_test\main.o: ../Inc/sensors/Sensors_priv.h

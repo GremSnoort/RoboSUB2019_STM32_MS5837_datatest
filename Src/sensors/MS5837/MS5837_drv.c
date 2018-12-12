@@ -3,38 +3,30 @@
  * All rights reserved.
  */
 
-#include "sensors/MS5837-30BA/MS5837-30BA_driver.h"
+#include "sensors/MS5837/MS5837_drv.h"
 
 #include <math.h>
 
-static void InitParams( MS5837_Handle *dev )
-{	
-	dev->fluidDensity = 1029;
-	dev->model = ms5837_30ba;
-}
-
-void MS5837SetModel( MS5837_Handle *dev, uint8_t model )
+void MS5837SetModel( struct MS5837Device* dev, MS5837Model model )
 {
 	dev->model = model;
 }
 
-void MS5837SetFluidDensity( MS5837_Handle *dev, float density )
+void MS5837SetFluidDensity( struct MS5837Device* dev, float density )
 {
 	dev->fluidDensity = density;
 }
 
-DrvStatus MS5837Init( MS5837_Handle *dev )
+DrvStatus MS5837Init( struct MS5837Device* dev )
 {
 	uint8_t cmd;
 	uint8_t buffer[2];
 	
-	InitParams( dev );
-	
-	// Reset the MS5837, per datasheet
+	// Reset the MS5837 according to datasheet
 	cmd = MS5837_RESET;
 	if ( HAL_I2C_Master_Transmit( dev->i2c, MS5837_ADDR_WRITE, &cmd, 1, 10000 ) != HAL_OK )
 	{
-		return DRV_FAILURE;
+		return DRV_RESET_FAILURE;
 	}
 	
 	// Wait for reset to complete
@@ -57,39 +49,39 @@ DrvStatus MS5837Init( MS5837_Handle *dev )
 		dev->calibData[i] = to_uint16( buffer );
 	}
 
-	// Verify that data is correct with CRC
+	// Verify data with CRC
 	uint8_t crcRead = dev->calibData[0] >> 12;
-	uint8_t crcCalculated = mcrc4( dev->calibData );
+	uint8_t crcCalculated = crc4( dev->calibData );
 
 	if ( crcCalculated == crcRead )
 	{
 		return DRV_SUCCESS; // Initialization success
 	}
 
-	return DRV_SUCCESS; // CRC fail
+	return DRV_CRC_ERROR; // CRC fail
 }
 
-float MS5837Pressure( MS5837_Handle *dev, float conversion )
+float MS5837Pressure( struct MS5837Device* dev, float conversion )
 {
 	return dev->P * conversion;
 }
 
-float MS5837Temperature( MS5837_Handle *dev )
+float MS5837Temperature( struct MS5837Device* dev )
 {
-	return dev->TEMP/100.0f;
+	return dev->TEMP / 100.0f;
 }
 
-float MS5837Depth( MS5837_Handle *dev )
+float MS5837Depth( struct MS5837Device* dev )
 {
-	return (MS5837Pressure( dev, Pa ) - .101300) / (dev->fluidDensity * 9.80665);
+	return ( MS5837Pressure( dev, Pa ) - .101300 ) / ( dev->fluidDensity * 9.80665 );
 }
 
-float MS5837Altitude( MS5837_Handle *dev )
+float MS5837Altitude( struct MS5837Device* dev )
 {
-	return (1 - pow((MS5837Pressure(dev, mbar) / 1013.25), .190284)) * 145366.45 * .3048;
+	return ( 1 - pow( ( MS5837Pressure( dev, mbar ) / 1013.25), .190284 ) ) * 145366.45 * .3048;
 }
 
-static void Calculate( MS5837_Handle *dev )
+static void MS5837Calculate( struct MS5837Device* dev )
 {
 	// Given C1-C6 and D1, D2, calculated TEMP and P
 	// Do conversion first and then second order temp compensation	
@@ -104,31 +96,31 @@ static void Calculate( MS5837_Handle *dev )
 	
 	// Terms called
 	dT = dev->D2 - (uint32_t)(dev->calibData[5]) * 256l;
-	if ( dev->model == ms5837_02ba )
+	if ( dev->model == MS5837_02BA )
 	{
-		SENS = (int64_t)(dev->calibData[1]) * 65536l + ((int64_t)(dev->calibData[3]) * dT) / 128l;
-		OFF = (int64_t)(dev->calibData[2]) * 131072l + ((int64_t)(dev->calibData[4]) * dT) / 64l;
-		dev->P = (dev->D1 * SENS/(2097152l) - OFF) / (32768l);
+		SENS = (int64_t)(dev->calibData[1]) * 65536l + ( (int64_t)(dev->calibData[3]) * dT ) / 128l;
+		OFF = (int64_t)(dev->calibData[2]) * 131072l + ( (int64_t)(dev->calibData[4]) * dT ) / 64l;
+		dev->P = ( dev->D1 * SENS/(2097152l) - OFF ) / (32768l);
 	}
 	else
 	{
-		SENS = (int64_t)(dev->calibData[1]) * 32768l + ((int64_t)(dev->calibData[3]) * dT) / 256l;
-		OFF = (int64_t)(dev->calibData[2]) * 65536l + ((int64_t)(dev->calibData[4]) * dT) / 128l;
-		dev->P = (dev->D1 * SENS / (2097152l)-OFF) / (8192l);
+		SENS = (int64_t)(dev->calibData[1]) * 32768l + ( (int64_t)(dev->calibData[3]) * dT ) / 256l;
+		OFF = (int64_t)(dev->calibData[2]) * 65536l + ( (int64_t)(dev->calibData[4]) * dT ) / 128l;
+		dev->P = ( dev->D1 * SENS / (2097152l)-OFF ) / (8192l);
 	}
 	
 	// Temp conversion
 	dev->TEMP = 2000l + (int64_t)(dT) * dev->calibData[6] / 8388608LL;
 	
 	//Second order compensation
-	if ( dev->model == ms5837_02ba )
+	if ( dev->model == MS5837_02BA )
 	{
 		if ( (dev->TEMP / 100) < 20 )
 		{
 			//Low temp
-			Ti = (11*(int64_t)(dT) * (int64_t)(dT)) / (34359738368LL);
-			OFFi = (31 * (dev->TEMP-2000) * (dev->TEMP-2000)) / 8;
-			SENSi = (63 * (dev->TEMP-2000) * (dev->TEMP-2000)) / 32;
+			Ti = ( 11*(int64_t)(dT) * (int64_t)(dT) ) / (34359738368LL);
+			OFFi = ( 31 * ( dev->TEMP-2000 ) * ( dev->TEMP-2000 ) ) / 8;
+			SENSi = ( 63 * ( dev->TEMP-2000 ) * ( dev->TEMP-2000 ) ) / 32;
 		}
 	}
 	else
@@ -136,22 +128,22 @@ static void Calculate( MS5837_Handle *dev )
 		if ( (dev->TEMP / 100) < 20 )
 		{
 			//Low temp
-			Ti = (3 * (int64_t)(dT) * (int64_t)(dT)) / (8589934592LL);
-			OFFi = (3 * (dev->TEMP - 2000) * (dev->TEMP - 2000)) / 2;
-			SENSi = (5 * (dev->TEMP - 2000) * (dev->TEMP - 2000)) / 8;
+			Ti = ( 3 * (int64_t)(dT) * (int64_t)(dT) ) / (8589934592LL);
+			OFFi = ( 3 * ( dev->TEMP - 2000 ) * ( dev->TEMP - 2000 ) ) / 2;
+			SENSi = ( 5 * ( dev->TEMP - 2000 ) * ( dev->TEMP - 2000 ) ) / 8;
 			
 			if ( (dev->TEMP / 100) < -15 )
 			{
 				//Very low temp
-				OFFi = OFFi + 7 * (dev->TEMP + 1500l) * (dev->TEMP + 1500l);
-				SENSi = SENSi + 4 * (dev->TEMP + 1500l) * (dev->TEMP + 1500l);
+				OFFi = OFFi + 7 * ( dev->TEMP + 1500l ) * ( dev->TEMP + 1500l );
+				SENSi = SENSi + 4 * ( dev->TEMP + 1500l ) * ( dev->TEMP + 1500l );
 			}
 		}
-		else if ( (dev->TEMP / 100) >= 20 )
+		else if ( ( dev->TEMP / 100 ) >= 20 )
 		{
 			//High temp
-			Ti = 2 * (dT * dT) / (137438953472LL);
-			OFFi = (1 * (dev->TEMP - 2000) * (dev->TEMP - 2000)) / 16;
+			Ti = 2 * ( dT * dT ) / (137438953472LL);
+			OFFi = ( 1 * ( dev->TEMP - 2000) * ( dev->TEMP - 2000 ) ) / 16;
 			SENSi = 0;
 		}
 	}
@@ -159,19 +151,19 @@ static void Calculate( MS5837_Handle *dev )
 	OFF2 = OFF-OFFi;           //Calculate pressure and temp second order
 	SENS2 = SENS-SENSi;
 	
-	if ( dev->model == ms5837_02ba )
+	if ( dev->model == MS5837_02BA )
 	{
 		dev->TEMP = (dev->TEMP-Ti);
-		dev->P = (((dev->D1 * SENS2) / 2097152l - OFF2) / 32768l) / 100;
+		dev->P = ( ( ( dev->D1 * SENS2 ) / 2097152l - OFF2 ) / 32768l ) / 100;
 	}
 	else
 	{
 		dev->TEMP = (dev->TEMP-Ti);
-		dev->P = (((dev->D1 * SENS2) / 2097152l - OFF2) / 8192l) / 10;
+		dev->P = ( ( ( dev->D1 * SENS2 ) / 2097152l - OFF2 ) / 8192l ) / 10;
 	}
 }
 
-DrvStatus MS5837Read( MS5837_Handle *dev )
+DrvStatus MS5837Read( struct MS5837Device* dev )
 {
 	uint8_t cmd;
 	uint8_t buffer[3];
@@ -220,7 +212,18 @@ DrvStatus MS5837Read( MS5837_Handle *dev )
 
 	dev->D2 = to_uint32( buffer );	
 
-	Calculate( dev );
+	MS5837Calculate( dev );
 	
 	return DRV_SUCCESS;
+}
+
+MS5837Device MS5837GetNewDevice( MS5837Model model, float density, I2C_HandleTypeDef* i2c )
+{
+	MS5837Device dev;
+	
+	dev.model = model;
+	dev.fluidDensity = density;
+	dev.i2c = i2c;
+	
+	return dev;
 }
