@@ -1,6 +1,6 @@
 --cpu=Cortex-M4.fp
 "ms5837-30ba_test\startup_stm32f401xe.o"
-"ms5837-30ba_test\ms5837-30ba_driver.o"
+"ms5837-30ba_test\ms5837_drv.o"
 "ms5837-30ba_test\main.o"
 "ms5837-30ba_test\stm32f4xx_it.o"
 "ms5837-30ba_test\stm32f4xx_hal_msp.o"

@@ -214,8 +214,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Inc\sensors\MS5837-30BA\MS5837-30BA_driver.h</PathWithFileName>
-      <FilenameWithoutPath>MS5837-30BA_driver.h</FilenameWithoutPath>
+      <PathWithFileName>..\Inc\sensors\MS5837-30BA\MS5837_drv.h</PathWithFileName>
+      <FilenameWithoutPath>MS5837_drv.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -226,8 +226,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Src\sensors\MS5837-30BA\MS5837-30BA_driver.c</PathWithFileName>
-      <FilenameWithoutPath>MS5837-30BA_driver.c</FilenameWithoutPath>
+      <PathWithFileName>..\Src\sensors\MS5837-30BA\MS5837_drv.c</PathWithFileName>
+      <FilenameWithoutPath>MS5837_drv.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -44,7 +44,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#include "sensors/MS5837-30BA/MS5837-30BA_driver.h"
+#include "sensors/MS5837-30BA/MS5837_drv.h"
 
 /* USER CODE END Includes */
 
@@ -73,7 +73,9 @@ UART_HandleTypeDef huart2;
 uint16_t size;
 uint8_t Data[256];
 
-MS5837_Handle ms583730ba_sensor;
+MS5837Device ms583730ba_sensor;
+
+//MS5837_Handle ms583730ba_sensor;
 
 /* USER CODE END PV */
 
@@ -123,7 +125,7 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 	
-	ms583730ba_sensor.i2c = &hi2c2;
+	ms583730ba_sensor = MS5837GetNewDevice( MS5837_30BA, 1029, &hi2c2 );
 	
 	DrvStatus st = DRV_FAILURE;
 	while ( st != DRV_SUCCESS )
@@ -139,8 +141,7 @@ int main(void)
 		HAL_Delay(1000);
 	}
 	
-	MS5837SetModel( &ms583730ba_sensor, ms5837_30ba );
-	MS5837SetFluidDensity( &ms583730ba_sensor, 997 );
+	//MS5837SetFluidDensity( &ms583730ba_sensor, 997 );
 
   /* USER CODE END 2 */
 

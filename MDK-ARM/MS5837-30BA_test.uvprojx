@@ -393,14 +393,14 @@
           <GroupName>MS5837-30BA_Driver</GroupName>
           <Files>
             <File>
-              <FileName>MS5837-30BA_driver.h</FileName>
+              <FileName>MS5837_drv.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Inc\sensors\MS5837-30BA\MS5837-30BA_driver.h</FilePath>
+              <FilePath>..\Inc\sensors\MS5837-30BA\MS5837_drv.h</FilePath>
             </File>
             <File>
-              <FileName>MS5837-30BA_driver.c</FileName>
+              <FileName>MS5837_drv.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Src\sensors\MS5837-30BA\MS5837-30BA_driver.c</FilePath>
+              <FilePath>..\Src\sensors\MS5837-30BA\MS5837_drv.c</FilePath>
             </File>
           </Files>
         </Group>

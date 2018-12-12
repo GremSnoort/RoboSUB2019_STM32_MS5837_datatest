@@ -16,6 +16,8 @@ typedef enum EDrvStatus
 {
 	DRV_SUCCESS =  0,
 	DRV_FAILURE  = -1,
+	
+	DRV_RESET_FAILURE,
 	DRV_TRANSMIT_FAILURE,
 	DRV_RECIEVE_FAILURE,
 	DRV_CRC_ERROR,
@@ -32,7 +34,7 @@ static uint32_t to_uint32( uint8_t bytes[] )
   return (uint32_t)( (bytes[0] << 16) | (bytes[1] << 8) | bytes[2] );
 }
 
-static uint8_t mcrc4( uint16_t n_prom[] )
+static uint8_t crc4( uint16_t n_prom[] )
 {
 	uint16_t n_rem = 0;
 
