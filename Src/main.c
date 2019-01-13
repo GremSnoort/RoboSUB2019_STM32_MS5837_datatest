@@ -70,9 +70,6 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 
-uint16_t size;
-uint8_t Data[256];
-
 MS5837Device ms583730ba_sensor;
 
 /* USER CODE END PV */
@@ -123,21 +120,8 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 	
-	ms583730ba_sensor = MS5837GetNewDevice( MS5837_30BA, 1029, &hi2c2 );
-	
-	DrvStatus st = DRV_FAILURE;
-	while ( st != DRV_SUCCESS )
-	{
-		st = MS5837Init( &ms583730ba_sensor );
-		
-		if(st == DRV_FAILURE)size = sprintf( (char *)Data, "init FAILED\n\r" );
-		if(st == DRV_TRANSMIT_FAILURE)size = sprintf( (char *)Data, "init transmit FAILED\n\r" );
-		if(st == DRV_RECIEVE_FAILURE)size = sprintf( (char *)Data, "init recieve FAILED\n\r" );
-		
-		HAL_UART_Transmit(&huart2, Data, size, 1000);
-		
-		HAL_Delay(1000);
-	}
+	ms583730ba_sensor = MS5837GetNewDevice( MS5837_30BA, 1029, &hi2c2, &huart2 );	
+	MS5837Init( &ms583730ba_sensor );	
 	
 	//MS5837SetFluidDensity( &ms583730ba_sensor, 997 );
 
@@ -151,15 +135,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		
-		MS5837Read( &ms583730ba_sensor );
-		
-		float pressure = MS5837Pressure( &ms583730ba_sensor, Pa );
-		float temperature = MS5837Temperature( &ms583730ba_sensor );
-		float depth = MS5837Depth( &ms583730ba_sensor );
-		float altitude = MS5837Altitude( &ms583730ba_sensor );
-		
-		size = sprintf( (char *)Data, "\tpressure: %.2f;\ttemperature: %.2f;\tdepth: %.2f;\taltitude: %.2f;\n\r", pressure, temperature, depth, altitude );
-		HAL_UART_Transmit(&huart2, Data, size, 1000);
+		MS5837DataToUART( &ms583730ba_sensor );
 	}
   /* USER CODE END 3 */
 }

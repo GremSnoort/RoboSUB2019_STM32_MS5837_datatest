@@ -7,6 +7,9 @@
 
 #include <math.h>
 
+uint16_t size;
+uint8_t data[256];
+
 void MS5837SetModel( struct MS5837Device* dev, MS5837Model model )
 {
 	dev->model = model;
@@ -17,48 +20,75 @@ void MS5837SetFluidDensity( struct MS5837Device* dev, float density )
 	dev->fluidDensity = density;
 }
 
-DrvStatus MS5837Init( struct MS5837Device* dev )
+void MS5837Init( struct MS5837Device* dev )
 {
 	uint8_t cmd;
 	uint8_t buffer[2];
 	
-	// Reset the MS5837 according to datasheet
-	cmd = MS5837_RESET;
-	if ( HAL_I2C_Master_Transmit( dev->i2c, MS5837_ADDR_WRITE, &cmd, 1, 10000 ) != HAL_OK )
-	{
-		return DRV_RESET_FAILURE;
+	DrvStatus st = DRV_FAILURE;
+	
+	while ( st != DRV_SUCCESS )
+	{	
+		// Reset the MS5837 according to datasheet
+		cmd = MS5837_RESET;
+		
+		if ( HAL_I2C_Master_Transmit( dev->i2c, MS5837_ADDR_WRITE, &cmd, 1, 10000 ) != HAL_OK )
+		{
+			st = DRV_RESET_FAILURE;
+			size = sprintf( (char *)data, "MS5837 RESET failed\n\r" );
+			HAL_UART_Transmit( dev->huart, data, size, 1000 );
+			continue;
+		}
+		
+		// Wait for reset to complete
+		HAL_Delay(10);
+
+		// Read calibration values and CRC
+		for ( uint8_t i = 0; i < 7; i++ )
+		{
+			cmd = MS5837_PROM_READ + i*2;
+			if( HAL_I2C_Master_Transmit( dev->i2c, MS5837_ADDR_WRITE, &cmd, 1, 10000 ) != HAL_OK )
+			{
+				st = DRV_TRANSMIT_FAILURE;
+				size = sprintf( (char *)data, "MS5837 i2c TRANSMIT failed\n\r" );
+				HAL_UART_Transmit( dev->huart, data, size, 1000 );
+				break;
+			}
+			
+			if ( HAL_I2C_Master_Receive( dev->i2c, MS5837_ADDR_READ, buffer, 2, 10000 ) != HAL_OK )
+			{
+				st = DRV_RECIEVE_FAILURE;
+				size = sprintf( (char *)data, "MS5837 i2c RECIEVE failed\n\r" );
+				HAL_UART_Transmit( dev->huart, data, size, 1000 );
+				break;
+			}
+			
+			dev->calibData[i] = to_uint16( buffer );
+		}
+		
+		if ( st != DRV_FAILURE )
+		{
+			continue;
+		}
+
+		// Verify data with CRC
+		uint8_t crcRead = dev->calibData[0] >> 12;
+		uint8_t crcCalculated = crc4( dev->calibData );
+
+		if ( crcCalculated == crcRead )
+		{
+			st = DRV_SUCCESS; // Initialization success
+		}
+		else
+		{
+			st = DRV_CRC_ERROR; // CRC fail
+			size = sprintf( (char *)data, "MS5837 CRC error\n\r" );
+			HAL_UART_Transmit( dev->huart, data, size, 1000 );
+		}
 	}
 	
-	// Wait for reset to complete
-	HAL_Delay(10);
-
-	// Read calibration values and CRC
-	for ( uint8_t i = 0; i < 7; i++ )
-	{
-		cmd = MS5837_PROM_READ + i*2;
-		if( HAL_I2C_Master_Transmit( dev->i2c, MS5837_ADDR_WRITE, &cmd, 1, 10000 ) != HAL_OK )
-		{
-			return DRV_TRANSMIT_FAILURE;
-		}
-		
-		if ( HAL_I2C_Master_Receive( dev->i2c, MS5837_ADDR_READ, buffer, 2, 10000 ) != HAL_OK )
-		{
-			return DRV_RECIEVE_FAILURE;
-		}
-		
-		dev->calibData[i] = to_uint16( buffer );
-	}
-
-	// Verify data with CRC
-	uint8_t crcRead = dev->calibData[0] >> 12;
-	uint8_t crcCalculated = crc4( dev->calibData );
-
-	if ( crcCalculated == crcRead )
-	{
-		return DRV_SUCCESS; // Initialization success
-	}
-
-	return DRV_CRC_ERROR; // CRC fail
+	size = sprintf( (char *)data, "MS5837 init SUCCESS!\n\r" );
+	HAL_UART_Transmit( dev->huart, data, size, 1000 );
 }
 
 float MS5837Pressure( struct MS5837Device* dev, float conversion )
@@ -217,13 +247,27 @@ DrvStatus MS5837Read( struct MS5837Device* dev )
 	return DRV_SUCCESS;
 }
 
-MS5837Device MS5837GetNewDevice( MS5837Model model, float density, I2C_HandleTypeDef* i2c )
+void MS5837DataToUART( struct MS5837Device* dev )
+{
+	MS5837Read( dev );
+		
+	float pressure = MS5837Pressure( dev, Pa );
+	float temperature = MS5837Temperature( dev );
+	float depth = MS5837Depth( dev );
+	float altitude = MS5837Altitude( dev );
+	
+	size = sprintf( (char *)data, "\tMS5837:\tpressure: %.2f;\ttemperature: %.2f;\tdepth: %.2f;\taltitude: %.2f;\n\r", pressure, temperature, depth, altitude );
+	HAL_UART_Transmit( dev->huart, data, size, 1000);
+}
+
+MS5837Device MS5837GetNewDevice( MS5837Model model, float density, I2C_HandleTypeDef* i2c, UART_HandleTypeDef* huart )
 {
 	MS5837Device dev;
 	
 	dev.model = model;
 	dev.fluidDensity = density;
 	dev.i2c = i2c;
+	dev.huart = huart;
 	
 	return dev;
 }

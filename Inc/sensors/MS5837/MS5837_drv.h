@@ -35,6 +35,7 @@ typedef enum EMS5837Model
 typedef struct MS5837Device
 {
 	I2C_HandleTypeDef* i2c;
+	UART_HandleTypeDef* huart;
 	MS5837Model model;	
 	float fluidDensity;
 
@@ -54,7 +55,7 @@ void MS5837SetModel( struct MS5837Device* dev, MS5837Model model );
  */
 void MS5837SetFluidDensity( struct MS5837Device* dev, float density );
 
-DrvStatus MS5837Init( struct MS5837Device* dev );
+void MS5837Init( struct MS5837Device* dev );
 
 float MS5837Pressure( struct MS5837Device* dev, float conversion );
 float MS5837Temperature( struct MS5837Device* dev );
@@ -64,7 +65,9 @@ float MS5837Altitude( struct MS5837Device* dev );
 static void MS5837Calculate( struct MS5837Device* dev );
 DrvStatus MS5837Read( struct MS5837Device* dev );
 
-MS5837Device MS5837GetNewDevice( MS5837Model model, float density, I2C_HandleTypeDef* i2c );
+void MS5837DataToUART( struct MS5837Device* dev );
+
+MS5837Device MS5837GetNewDevice( MS5837Model model, float density, I2C_HandleTypeDef* i2c, UART_HandleTypeDef* huart );
 
 //void MS5837DeleteDevice( MS5837Device* dev );
 

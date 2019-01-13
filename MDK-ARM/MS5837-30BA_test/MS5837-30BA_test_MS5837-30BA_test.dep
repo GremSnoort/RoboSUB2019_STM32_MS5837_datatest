@@ -1,7 +1,7 @@
 Dependencies for Project 'MS5837-30BA_test', Target 'MS5837-30BA_test': (DO NOT MODIFY !)
 F (startup_stm32f401xe.s)(0x5C0B6003)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_MS5837-30BA_test-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 526" --pd "_RTE_ SETA 1" --pd "STM32F401xE SETA 1"--list startup_stm32f401xe.lst --xref -o ms5837-30ba_test\startup_stm32f401xe.o --depend ms5837-30ba_test\startup_stm32f401xe.d)
-F (..\Src\sensors\MS5837\MS5837_drv.c)(0x5C11278B)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_MS5837-30BA_test-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F401xE -DUSE_HAL_DRIVER -DSTM32F401xE-o ms5837-30ba_test\ms5837_drv.o --omf_browse ms5837-30ba_test\ms5837_drv.crf --depend ms5837-30ba_test\ms5837_drv.d)
-I (../Inc/sensors/MS5837/MS5837_drv.h)(0x5C0C09B8)
+F (..\Src\sensors\MS5837\MS5837_drv.c)(0x5C3ADA74)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_MS5837-30BA_test-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F401xE -DUSE_HAL_DRIVER -DSTM32F401xE-o ms5837-30ba_test\ms5837_drv.o --omf_browse ms5837-30ba_test\ms5837_drv.crf --depend ms5837-30ba_test\ms5837_drv.d)
+I (../Inc/sensors/MS5837/MS5837_drv.h)(0x5C3AD3D3)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5C0B5EEA)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5C0B5FFE)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x5C0B5EEA)
@@ -31,11 +31,11 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h)(0x5C0B5EEA)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h)(0x5C0B5EEA)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x5C0B5EEA)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5C0B5EEA)
-I (../Inc/sensors/Sensors_priv.h)(0x5C0C0551)
+I (../Inc/sensors/Sensors_priv.h)(0x5C3AD946)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
-F (..\Inc\sensors\Sensors_priv.h)(0x5C0C0551)()
-F (..\Inc\sensors\MS5837\MS5837_drv.h)(0x5C0C09B8)()
-F (../Src/main.c)(0x5C112593)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_MS5837-30BA_test-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F401xE -DUSE_HAL_DRIVER -DSTM32F401xE-o ms5837-30ba_test\main.o --omf_browse ms5837-30ba_test\main.crf --depend ms5837-30ba_test\main.d)
+F (..\Inc\sensors\Sensors_priv.h)(0x5C3AD946)()
+F (..\Inc\sensors\MS5837\MS5837_drv.h)(0x5C3AD3D3)()
+F (../Src/main.c)(0x5C3AD799)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_MS5837-30BA_test-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F401xE -DUSE_HAL_DRIVER -DSTM32F401xE-o ms5837-30ba_test\main.o --omf_browse ms5837-30ba_test\main.crf --depend ms5837-30ba_test\main.d)
 I (../Inc/main.h)(0x5C0B5FFE)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5C0B5EEA)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5C0B5FFE)
@@ -66,8 +66,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h)(0x5C0B5EEA)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h)(0x5C0B5EEA)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x5C0B5EEA)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5C0B5EEA)
-I (../Inc/sensors/MS5837/MS5837_drv.h)(0x5C0C09B8)
-I (../Inc/sensors/Sensors_priv.h)(0x5C0C0551)
+I (../Inc/sensors/MS5837/MS5837_drv.h)(0x5C3AD3D3)
+I (../Inc/sensors/Sensors_priv.h)(0x5C3AD946)
 F (../Src/stm32f4xx_it.c)(0x5C0B5FFD)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_MS5837-30BA_test-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F401xE -DUSE_HAL_DRIVER -DSTM32F401xE-o ms5837-30ba_test\stm32f4xx_it.o --omf_browse ms5837-30ba_test\stm32f4xx_it.crf --depend ms5837-30ba_test\stm32f4xx_it.d)
 I (../Inc/main.h)(0x5C0B5FFE)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5C0B5EEA)
